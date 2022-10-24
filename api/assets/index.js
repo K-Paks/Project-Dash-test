@@ -27,30 +27,16 @@ function randomColor(..._){
 }
 
 
-
-function decide_modal(n_clicks, opened){
-    if(n_clicks === undefined){
-        return false;
-    }
+function decide_modal(_, opened){
+    const ctx = dash_clientside.callback_context;
+    if(!ctx?.triggered?.length) return false;
     return !Boolean(opened);
 }
 
-function formatTimeInComp(value){return value ? formatDate(value / 1e3) : "--"}
+function formatTimeInComp(value){return value ? formatDate(value) : "--"}
 
 function handleShimmer(figure){
     return !Boolean(figure.data[0].values);
-}
-
-
-function handleTests(checks, currentCodes){
-    // checks is the list of checks for the checkboxes: passed, fail, unknown
-    // currentCodes is the list of colors of the current badges
-    // returns whether to hide or not
-    const currentMapped = {green: checks[0], red: checks[1], yellow: checks[2]}
-    
-    return currentCodes.map(function(result){
-        return {display: currentMapped[result] ? "initial" : "none"}
-    })
 }
 
 
@@ -59,12 +45,6 @@ function invalidToDisable(_, check_id){
     return !(element ? element.checkValidity() : Boolean(_))
 }
 
-
-function toSearch(_){
-    if(!_) return window.dash_clientside.no_update;
-    
-    return "/_ask_name";
-}
 
 function diffTimeMinutes(past, newThings){
     const left = newThings ?? new Date();
@@ -83,9 +63,7 @@ function startCollection(storedName, is_it_me){
          storedName ? (is_it_me ? "orange" : "blue") : "gray",
          `/view/${storedName}`
     ]
-    
 }
-
 
 
 function decide_refresh_path(isDisabled, tabIndex, prevValues, modified, labels){
@@ -133,7 +111,9 @@ function handleChecks(_checks){
 
 function enterToClick(_, textID, buttonID){
     const element = document.getElementById(textID);
-    if(element.checkValidity()) document.getElementById(buttonID).click();
+    console.log(element, textID, buttonID);
+
+    if(element && element.checkValidity()) document.getElementById(buttonID).click();
     return window.dash_clientside.no_update;
 }
 
@@ -193,14 +173,9 @@ window.dash_clientside = Object.assign({}, window.dash_clientside, {
         startCollection,
         formatTimeInComp,
         handleShimmer,
-        handleTests,
         randomColor,
         getTimezone,
         handleChecks
-    },
-    
-    redirectThings: {
-        toSearch
     },
 
     tabCache: {

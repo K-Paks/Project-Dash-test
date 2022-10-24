@@ -1,5 +1,5 @@
 import logging
-from dash import Dash, page_container, dcc
+from dash import Dash, page_container, dcc, clientside_callback, ClientsideFunction, Output, Input
 import dash_mantine_components as dmc
 
 logging.getLogger('flask_cors').level = logging.DEBUG
@@ -18,6 +18,12 @@ class MainApplication:
             ]
         )
 
+        clientside_callback(
+            ClientsideFunction(namespace='handleData', function_name='getTimezone'),
+            Output("timezone", "data"),
+            Input("timezone", "id")
+        )  # called only once
+
         self.set_layout()
 
     @property
@@ -28,7 +34,8 @@ class MainApplication:
         self.app.layout = dmc.MantineProvider(
             theme={"colorScheme": "dark", "fontFamily": "'segoe ui', 'Inter', sans-serif"},
             children=[
-                page_container
+                page_container, dcc.Store(id="timezone"),
+                dcc.Store(id="pipe", data="https://rahularanger-be-rahularanger.vercel.app/")
             ]
         )
 
