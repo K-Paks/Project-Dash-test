@@ -1,8 +1,14 @@
-import logging
 from dash import Dash, page_container, dcc, clientside_callback, ClientsideFunction, Output, Input
 import dash_mantine_components as dmc
 
-logging.getLogger('flask_cors').level = logging.DEBUG
+passive = __name__ == "__main__"
+
+if passive:
+    from dotenv import load_dotenv
+    load_dotenv()
+
+from api.build import assets_build
+assets_build(passive)
 
 
 class MainApplication:
@@ -43,5 +49,5 @@ class MainApplication:
 Application = MainApplication()
 app = Application.app.server
 
-if __name__ == "__main__":
+if passive:
     Application.app.run(port=6969, dev_tools_ui=True, debug=True, host="127.0.0.1")
