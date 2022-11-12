@@ -256,23 +256,23 @@
   }
 }
 
-@keyframes marquee {
-	from {
-		left: 100%;
-	}
-
-	to {
-		left: -100%;
-	}
-}
-
 .jello, .graph-card:hover > .graph-card-footer {
   animation: jello 2s infinite;
   transform-origin: center
 }
 
-.auto-scroll {
-	animation-delay: 2.5s;
-	left: -100%;
+
+.do-jump, .custom-butt{
+  background-image: var(--active);
+  color: white;
+  transition: var(--standard-transition);
 }
 
+.do-jump:disabled, .custom-butt:disabled{
+  background-image: var(--disabled);
+  cursor: not-allowed;
+}
+
+.do-jump:hover, .custom-butt:hover{
+  filter: brightness(1.15);
+}

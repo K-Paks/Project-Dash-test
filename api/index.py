@@ -1,14 +1,6 @@
 from dash import Dash, page_container, dcc, clientside_callback, ClientsideFunction, Output, Input
 import dash_mantine_components as dmc
-
-passive = __name__ == "__main__"
-
-if passive:
-    from dotenv import load_dotenv
-    load_dotenv()
-
-from api.build import assets_build
-assets_build(passive)
+from MyListAnalyzer.route_setup import build_assets, js_s
 
 
 class MainApplication:
@@ -19,9 +11,10 @@ class MainApplication:
             update_title="Loading...",
             use_pages=True,
             external_scripts=[
-                "https://unpkg.com/dash.nprogress@latest/dist/dash.nprogress.js",
-                "https://unpkg.com/embla-carousel/embla-carousel.umd.js"
-            ]
+                "https://unpkg.com/embla-carousel/embla-carousel.umd.js",
+                "https://unpkg.com/embla-carousel-class-names/embla-carousel-class-names.umd.js",
+                *js_s()
+            ],
         )
 
         clientside_callback(
@@ -30,6 +23,7 @@ class MainApplication:
             Input("timezone", "id")
         )  # called only once
 
+        build_assets(self.app.server)
         self.set_layout()
 
     @property
@@ -41,7 +35,7 @@ class MainApplication:
             theme={"colorScheme": "dark", "fontFamily": "'segoe ui', 'Inter', sans-serif"},
             children=[
                 page_container, dcc.Store(id="timezone"),
-                dcc.Store(id="pipe", data="https://rahularanger-be-rahularanger.vercel.app/")
+                dcc.Store(id="pipe", data="https://rahularanger-be-rahularanger.vercel.app")
             ]
         )
 
@@ -49,5 +43,8 @@ class MainApplication:
 Application = MainApplication()
 app = Application.app.server
 
-if passive:
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+
+    load_dotenv()
     Application.app.run(port=6969, dev_tools_ui=True, debug=True, host="127.0.0.1")

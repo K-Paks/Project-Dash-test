@@ -2,4 +2,4 @@
 venv
 api/assets/MAL/*
 api/pages/MAL/*
-.env
+*.env
