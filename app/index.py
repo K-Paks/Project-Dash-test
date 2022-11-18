@@ -1,6 +1,6 @@
 from dash import Dash, page_container, dcc, clientside_callback, ClientsideFunction, Output, Input
 import dash_mantine_components as dmc
-from MyListAnalyzer.route_setup import build_assets, js_s
+from MyListAnalyzerDash.route_setup import build_assets, js_s
 
 
 class MainApplication:

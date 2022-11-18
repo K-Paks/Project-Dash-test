@@ -1,5 +1,5 @@
 .idea
 venv
-api/assets/MAL/*
-api/pages/MAL/*
+app/assets/MAL/*
+app/pages/MAL/*
 *.env

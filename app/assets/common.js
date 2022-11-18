@@ -89,7 +89,6 @@ function invalidToDisable(_, check_id){
 
 function enterToClick(_, textID, buttonID){
     const element = document.getElementById(textID);
-    console.log(element, textID, buttonID);
 
     if(element && element.checkValidity()) document.getElementById(buttonID).click();
     return window.dash_clientside.no_update;
@@ -102,11 +101,10 @@ function animateRawNumbers(number){
     const maxi = Number.parseFloat(number.textContent);
     const isInt = Number.isInteger(maxi);
     const isPercent = number.textContent.at(-1) === "%";
-    
+
     let startFrom = 0;
 
     const increment = isPercent ? 0.69 : (maxi < 100 ? 1 : 6);
-    console.log(isPercent, isInt, number.textContent);
     const once = (
         isInt ? String(Number((isPercent ? number.textContent.slice(0, -1) : number.textContent))
         ) : String(maxi.toFixed(2))).length;

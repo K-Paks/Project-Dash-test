@@ -1,6 +1,6 @@
 .idea
 .vercel
-api/assets/MAL/*
+app/assets/MAL/*
 */__pycache__/*
-api/pages/MAL/*
+app/pages/MAL/*
 *.env
