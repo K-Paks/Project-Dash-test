@@ -5,14 +5,19 @@ from MyListAnalyzerDash.route_setup import build_assets, js_s
 
 class MainApplication:
     def __init__(self):
+        embla_packages = (
+            "https://unpkg.com/embla-carousel/embla-carousel.umd.js",
+            "https://unpkg.com/embla-carousel-class-names/embla-carousel-class-names.umd.js",
+            "https://unpkg.com/embla-carousel-autoplay/embla-carousel-autoplay.umd.js",
+        )
+
         self.__app = Dash(
             __name__,
             title="RahulARanger",
             update_title="Loading...",
             use_pages=True,
             external_scripts=[
-                "https://unpkg.com/embla-carousel/embla-carousel.umd.js",
-                "https://unpkg.com/embla-carousel-class-names/embla-carousel-class-names.umd.js",
+                *embla_packages,
                 *js_s()
             ],
         )
