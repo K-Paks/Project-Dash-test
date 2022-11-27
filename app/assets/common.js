@@ -101,7 +101,7 @@ function animateRawNumbers(number){
     const maxi = Number.parseFloat(number.textContent);
     const isInt = Number.isInteger(maxi);
     const isPercent = number.textContent.at(-1) === "%";
-
+    
     let startFrom = 0;
 
     const increment = isPercent ? 0.69 : (maxi < 100 ? 1 : 6);
