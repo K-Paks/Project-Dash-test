@@ -1,6 +1,7 @@
 from dash import Dash, page_container, dcc, clientside_callback, ClientsideFunction, Output, Input
 import dash_mantine_components as dmc
-from MyListAnalyzerDash.route_setup import build_assets, js_s
+from MyListAnalyzerDash.route_setup import build_assets
+import pathlib
 
 
 class MainApplication:
@@ -10,10 +11,6 @@ class MainApplication:
             title="RahulARanger",
             update_title="Loading...",
             use_pages=True,
-            external_scripts=[
-                "https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js",
-                *js_s()
-            ],
         )
 
         clientside_callback(
@@ -22,8 +19,12 @@ class MainApplication:
             Input("timezone", "id")
         )  # called only once
 
-        build_assets(self.app.server)
+        self.build()
         self.set_layout()
+
+    def build(self):
+        build_assets(self.app.server)
+        self.app.renderer = (pathlib.Path(__file__).parent / "allocator.js").read_text()
 
     @property
     def app(self):

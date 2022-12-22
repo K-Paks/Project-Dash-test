@@ -1,5 +1,28 @@
 'use strict';
 
+
+// FORMATTING Constants
+
+const numberFormatForDecimals = Intl.NumberFormat(
+    "en-US",
+    {
+        style: "decimal",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    }
+)
+
+const numberFormatForPercent = Intl.NumberFormat(
+    "en-US",
+    {
+        style: "percent",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    }
+)
+
+const english_ordinal_rules = new Intl.PluralRules("en", {type: "ordinal"})
+
 // UTILS FUNCTIONS
 
 function getTimezone(){
@@ -34,6 +57,97 @@ function formateTime(datetime){
   second: "numeric",}).format(new Date(datetime))
 }
 
+
+class FormattedTimeElement{
+    timer=null;
+
+    constructor(element){
+        if(element){
+            this.formatThings(element);
+            element.addEventListener("click", function(event){
+                const _element = event.target;
+                const timer = Number.parseInt(_element.dataset["timer"]);
+                
+                if(timer)
+                    clearTimeout(timer);
+                new FormattedTimeElement(_element);
+            });        
+        }
+        else
+            delete this;
+    }
+
+    formatThings(element){
+        // python time.time returns the value in seconds from epoch so.
+        const seconds = Math.floor(Number.parseFloat(element.dataset["timeStamp"])) * 1e3;
+        let timeout;
+
+        if(Number.isNaN(seconds)){
+            element.innerText = "---";
+            element.title = "Not Yet Started";
+            return
+        }
+
+        const asked = new Date(seconds);
+        
+        [element.innerText, timeout] = new FormatTime(seconds).format();
+        element.title = asked.toLocaleString();
+
+        element.dataset["timer"] = setTimeout(() => {
+            element.innerText = "👉😴";
+            element.title = "Poke me please";
+        }, timeout);
+    }   
+}
+
+
+class FormatTime{
+    passed;
+    formatter;
+    
+    constructor(date){
+        const today = new Date();
+        this.passed = Math.floor((date - today) / 1e3);
+        this.formatter = new Intl.RelativeTimeFormat('en', {style: 'long' });
+    }
+
+    format(){
+        let interval = this.passed / 31536e3;  // (365 * 60 * 60 * 24)
+        if(Math.abs(interval) > 1)
+            return [this.formatThings(interval, "years"), 608e5];
+
+        interval = this.passed / 2592e3; // (60 * 60 * 24 * 30)
+
+        if(Math.abs(interval) > 1)
+            return [this.formatThings(interval, "months"), 608e5];
+
+        interval = this.passed / 6048e2; 
+
+        if(Math.abs(interval) > 1)
+            return [this.formatThings(interval, "weeks"), 608e5];
+
+        interval = this.passed / 864e2;
+
+        if(Math.abs(interval) > 1)
+            return [this.formatThings(interval, "days"), 864e5];
+        
+        interval = this.passed / 36e2;
+        
+        if(Math.abs(interval) > 1)
+            return [this.formatThings(interval, "hours"), 36e5];
+        
+        interval = this.passed / 60;
+        if(Math.abs(interval) > 1)
+            return [this.formatThings(interval, "minutes"), 6e4];
+        
+        return [this.formatThings(this.passed, "seconds"), 10e3];
+    }
+
+    formatThings(interval, parameter){
+        return this.formatter.format(Math.round(interval), parameter)
+    }
+
+}
 
 
 function dmc_notification(autoClose, color, disallowClose, message, title){
@@ -96,28 +210,46 @@ function enterToClick(_, textID, buttonID){
 
 
 // INTERESTING INTERVAL THINGS
-
 function animateRawNumbers(number){
-    const maxi = Number.parseFloat(number.textContent);
-    const isInt = Number.isInteger(maxi);
-    const isPercent = number.textContent.at(-1) === "%";
+    let maxi = Number.parseFloat(number.title);
+    const isPercent = number.title.at(-1) === "%";
     
+    clearInterval(number.dataset["timer"]);
+    
+    if(isPercent) maxi = maxi / 100;
     let startFrom = 0;
 
-    const increment = isPercent ? 0.69 : (maxi < 100 ? 1 : 6);
-    const once = (
-        isInt ? String(Number((isPercent ? number.textContent.slice(0, -1) : number.textContent))
-        ) : String(maxi.toFixed(2))).length;
-    number.title = `${maxi}${isPercent ? '%' : ''}`
-
-    const id_ = setInterval(function(){
-        number.textContent = `${isInt ? startFrom.toFixed(0) : startFrom.toFixed(2)}${isPercent ? '%' : ''}`.padStart(once, "0");
-        if(startFrom === maxi) clearInterval(id_);
+    const increment = isPercent ? 0.69e-2 : (maxi < 100 ? 1 : 6);
+    number.dataset["timer"] = setInterval(function(){
+        number.textContent = (isPercent ? numberFormatForPercent : numberFormatForDecimals).format(startFrom);
+        if(startFrom === maxi) clearInterval(number.dataset["timer"]);
         startFrom += Math.min(maxi - startFrom, increment);
 
     }, 30)
 }
 
+function switchRankColor(rank){
+    switch (rank) {
+        case 1: return "gold";
+        case 2: return "silver";
+        case 3: return "bronze";
+        default: return "orange";
+    }
+}
+
+
+function setColorBasedOnRank(element){
+    const rank = Number.parseInt(element.dataset["rank"]);
+    const suffixes = {
+        one: "st",
+        two: "nd",
+        few: "rd",
+        other: "th"
+    };
+
+    element.textContent = `${rank}${suffixes[english_ordinal_rules.select(rank)]}`;
+    element.style.color = switchRankColor(rank);
+}
 
 
 window.dash_clientside = Object.assign({}, window.dash_clientside, {
@@ -131,6 +263,10 @@ window.dash_clientside = Object.assign({}, window.dash_clientside, {
     },
     eventListenerThings: {
         invalidToDisable,
-        enterToClick
+        enterToClick,
+        formatTimeStamp: function(...args){
+            new FormattedTimeElement(document.getElementById(args.at(-1)));
+            return say_no(1)[0];
+        }
     }
 });

@@ -121,3 +121,7 @@ button.mantine-ActionIcon-root{
         max-width: 350px;
     }
 }
+
+.mantine-Modal-body{
+    transition: var(--standard-transition);
+}

@@ -3,10 +3,9 @@
 
 html {
     height: 100%;
-    background: radial-gradient(ellipse at bottom, #18191A 0%, #090a0f 100%);
+    background-color: rgba(9, 10, 15, 0.98);
     overflow: hidden;
   }
-
 
 
   #stars {
