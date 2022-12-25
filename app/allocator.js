@@ -12,7 +12,7 @@ const renderer = new DashRenderer();
     const MLA_Prefixed = (page) => new RegExp(`^https?:\/\/.*\/MLA\/${page}`);
 
     if(
-        MLA_Prefixed("view").test(url) || MLA_Prefixed("_test").test(url)
+        MLA_Prefixed("view").test(url)
     ){
         allowed_extensions.push(extensions[0]);
         allowed_extensions.push(extensions[1]);

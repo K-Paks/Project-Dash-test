@@ -20,18 +20,6 @@ html, body{
     color: white;
 }
 
-nav.mantine-Header-root{
-    background-color: transparent;
-    padding-left: 6px;
-    padding-right: 3px;
-    padding-bottom: 3px;
-    padding-top: 3px;
-    height: 35px; 
-    z-index: 1;
-    width: 100vw;
-    box-sizing: border-box;
-}
-
 a.nav_link{
     margin: auto 0px;
     font-size: 1.5rem;
@@ -72,8 +60,8 @@ a.nav_link:hover{
 }
 
 .half-elf{
-    top: 35px;
-    height: calc(100vh - 35px);
+    top: 25px;
+    height: calc(100vh - 25px);
 }
 
 .home{
@@ -125,3 +113,4 @@ button.mantine-ActionIcon-root{
 .mantine-Modal-body{
     transition: var(--standard-transition);
 }
+

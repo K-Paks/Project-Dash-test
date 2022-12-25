@@ -211,8 +211,8 @@ function enterToClick(_, textID, buttonID){
 
 // INTERESTING INTERVAL THINGS
 function animateRawNumbers(number){
-    let maxi = Number.parseFloat(number.title);
-    const isPercent = number.title.at(-1) === "%";
+    let maxi = Number.parseFloat(number.dataset.value);
+    const isPercent = number.dataset.value.at(-1) === "%";
     
     clearInterval(number.dataset["timer"]);
     
