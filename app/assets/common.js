@@ -79,7 +79,7 @@ class FormattedTimeElement{
 
     formatThings(element){
         // python time.time returns the value in seconds from epoch so.
-        const seconds = Math.floor(Number.parseFloat(element.dataset["timeStamp"])) * 1e3;
+        const seconds = Math.floor(Number.parseFloat(element.dataset["timeStamp"])) * (element.dataset["isMs"] ? 1 : 1e3);
         let timeout;
 
         if(Number.isNaN(seconds)){
@@ -190,24 +190,6 @@ function decide_modal(_, opened){
     return !Boolean(opened);
 }
 
-// function formatTimeInComp(value){return value ? formatDate(value) : "--"}
-
-
-// EVENT LISTENER THINGS
-
-function invalidToDisable(_, check_id){
-    const element = document.getElementById(check_id);
-    return !(element ? element.checkValidity() : Boolean(_))
-}
-
-
-function enterToClick(_, textID, buttonID){
-    const element = document.getElementById(textID);
-
-    if(element && element.checkValidity()) document.getElementById(buttonID).click();
-    return window.dash_clientside.no_update;
-}
-
 
 // INTERESTING INTERVAL THINGS
 function animateRawNumbers(number){
@@ -259,11 +241,12 @@ window.dash_clientside = Object.assign({}, window.dash_clientside, {
 
     handleData: {
         getTimezone,
-        formatDateTime
+        formatDateTime,
+        takeThingsAndGiveThat(...args){
+            return args.length > 1 ? args[0] : args;
+        }
     },
     eventListenerThings: {
-        invalidToDisable,
-        enterToClick,
         formatTimeStamp: function(...args){
             new FormattedTimeElement(document.getElementById(args.at(-1)));
             return say_no(1)[0];
