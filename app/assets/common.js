@@ -201,7 +201,7 @@ function animateRawNumbers(number){
     if(isPercent) maxi = maxi / 100;
     let startFrom = 0;
 
-    const increment = isPercent ? 0.69e-2 : (maxi < 100 ? 1 : 6);
+    const increment = isPercent ? 0.69e-2 : (maxi < 100 ? 1 : (maxi > 2e3 ? 1e3 : 6));
     number.dataset["timer"] = setInterval(function(){
         number.textContent = (isPercent ? numberFormatForPercent : numberFormatForDecimals).format(startFrom);
         if(startFrom === maxi) clearInterval(number.dataset["timer"]);
