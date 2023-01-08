@@ -100,14 +100,6 @@ button.mantine-ActionIcon-root{
     border: 1px solid transparent;
 } */
 
-@media only screen and (max-height: 686px) and (max-width: 361px){
-    .half-elf{
-        height: calc(92vh - 35px);
-        max-width: 350px;
-    }
-}
-
 .mantine-Modal-body{
     transition: var(--standard-transition);
 }
-
