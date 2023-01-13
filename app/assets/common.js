@@ -88,11 +88,10 @@ class FormattedTimeElement{
             return
         }
 
-        const asked = new Date(seconds);
+        const asked = new Date(seconds)        
+        element.title = element.dataset["isNotUtc"] ? asked.toUTCString().slice(0, -4) : `${asked.toDateString()} ${asked.toTimeString().slice(0, 8)}`;
+        [element.innerText, timeout] = new FormatTime(Date.parse(element.title)).format();
         
-        [element.innerText, timeout] = new FormatTime(seconds).format();
-        element.title = asked.toLocaleString();
-
         element.dataset["timer"] = setTimeout(() => {
             element.innerText = "👉😴";
             element.title = "Poke me please";
