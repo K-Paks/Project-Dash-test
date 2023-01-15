@@ -25,6 +25,9 @@ class MainApplication:
     def build(self):
         build_assets(self.app.server)
         self.app.renderer = (pathlib.Path(__file__).parent / "allocator.js").read_text()
+        # since it is multi-page application, these scenarios are bound to happen
+        # so, we supress those exceptions for now
+        self.app.config.suppress_callback_exceptions = True
 
     @property
     def app(self):
