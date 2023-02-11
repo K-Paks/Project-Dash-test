@@ -1,33 +1,15 @@
 'use strict';
 
-
 // FORMATTING Constants
-
 const numberFormatForDecimals = Intl.NumberFormat(
-    "en-US",
-    {
-        style: "decimal",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-    }
-)
-
+    "en-US", {style: "decimal", minimumFractionDigits: 0, maximumFractionDigits: 2})
 const numberFormatForPercent = Intl.NumberFormat(
-    "en-US",
-    {
-        style: "percent",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-    }
-)
-
+    "en-US", {style: "percent", minimumFractionDigits: 0, maximumFractionDigits: 2})
 const english_ordinal_rules = new Intl.PluralRules("en", {type: "ordinal"})
 
 // UTILS FUNCTIONS
 
-function getTimezone(){
-    return Intl.DateTimeFormat().resolvedOptions().timeZone;
-}
+function getTimezone(){return Intl.DateTimeFormat().resolvedOptions().timeZone;}
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -35,10 +17,7 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-
-function say_no(times){
-    return Array(times).fill(window.dash_clientside.no_update);
-}
+function say_no(times){return Array(times).fill(window.dash_clientside.no_update);}
 
 function formatDateTime(from_epoch){
     if(!from_epoch) return "--";
@@ -46,17 +25,8 @@ function formatDateTime(from_epoch){
     return `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')} ${date.getHours() > 12 && date.getMinutes() >= 0 ? 'PM' : 'AM'}`;
 }
 
-function randomIntFromInterval(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-
-function formateTime(datetime){
-    return new Intl.DateTimeFormat(undefined, {hour: "numeric",
-  minute: "numeric",
-  second: "numeric",}).format(new Date(datetime))
-}
-
+// expect something like '6:29:12 PM'
+function formateTime(datetime){return new Intl.DateTimeFormat(undefined, {hour: "numeric", minute: "numeric", second: "numeric",}).format(new Date(datetime))}
 
 class FormattedTimeElement{
     timer=null;
@@ -67,14 +37,11 @@ class FormattedTimeElement{
             element.addEventListener("click", function(event){
                 const _element = event.target;
                 const timer = Number.parseInt(_element.dataset["timer"]);
-                
-                if(timer)
-                    clearTimeout(timer);
+                if(timer) clearTimeout(timer);
                 new FormattedTimeElement(_element);
             });        
         }
-        else
-            delete this;
+        else delete this;
     }
 
     formatThings(element){
@@ -189,7 +156,6 @@ function decide_modal(_, opened){
     return !Boolean(opened);
 }
 
-
 // INTERESTING INTERVAL THINGS
 function animateRawNumbers(number){
     let maxi = Number.parseFloat(number.dataset.value);
@@ -209,35 +175,8 @@ function animateRawNumbers(number){
     }, 30)
 }
 
-function switchRankColor(rank){
-    switch (rank) {
-        case 1: return "gold";
-        case 2: return "silver";
-        case 3: return "bronze";
-        default: return "orange";
-    }
-}
-
-
-function setColorBasedOnRank(element){
-    const rank = Number.parseInt(element.dataset["rank"]);
-    const suffixes = {
-        one: "st",
-        two: "nd",
-        few: "rd",
-        other: "th"
-    };
-
-    element.textContent = `${rank}${suffixes[english_ordinal_rules.select(rank)]}`;
-    element.style.color = switchRankColor(rank);
-}
-
-
 window.dash_clientside = Object.assign({}, window.dash_clientside, {
-    modal:{
-        decide_modal
-    },
-
+    modal:{decide_modal},
     handleData: {
         getTimezone,
         formatDateTime,

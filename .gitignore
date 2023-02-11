@@ -4,3 +4,4 @@ app/assets/MAL/*
 */__pycache__/*
 app/pages/MAL/*
 *.env
+*.pyc
