@@ -103,3 +103,6 @@ button.mantine-ActionIcon-root{
 .mantine-Modal-body{
     transition: var(--standard-transition);
 }
+
+.to-zoom img{ transition: var(--standard-transition);}
+.to-zoom img:hover{transform: scale(1.5) translateY(10px);}
