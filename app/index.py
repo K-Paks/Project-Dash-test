@@ -1,4 +1,4 @@
-from dash import Dash, page_container, dcc, clientside_callback, ClientsideFunction, Output, Input
+from dash import Dash, page_container, dcc, clientside_callback, ClientsideFunction, Output, Input, html
 import dash_mantine_components as dmc
 from MyListAnalyzerDash.route_setup import build_assets
 import pathlib
@@ -34,13 +34,14 @@ class MainApplication:
         return self.__app
 
     def set_layout(self):
-        self.app.layout = dmc.MantineProvider(
-            theme={"colorScheme": "light", "fontFamily": "'segoe ui', 'Inter', sans-serif"},
-            children=[
-                page_container, dcc.Store(id="timezone"),
-                dcc.Store(id="pipe", data="https://rahularanger-be-rahularanger.vercel.app")
-            ]
-        )
+        # self.app.layout = dmc.MantineProvider(
+        #     theme={"colorScheme": "dark", "fontFamily": "'segoe ui', 'Inter', sans-serif"},
+        #     children=[
+        #         page_container, dcc.Store(id="timezone"),
+        #         dcc.Store(id="pipe", data="https://rahularanger-be-rahularanger.vercel.app")
+        #     ]
+        # )
+        self.app.layout = html.Div('Testing testing')
 
 
 Application = MainApplication()
