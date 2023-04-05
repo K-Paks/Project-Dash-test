@@ -8,7 +8,7 @@ class MainApplication:
     def __init__(self):
         self.__app = Dash(
             __name__,
-            title="RahulARanger",
+            title="Koral",
             update_title="Loading...",
             use_pages=False,
         )
