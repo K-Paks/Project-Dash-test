@@ -8,7 +8,7 @@ logging.info("Added Pages %s, %s", user_view, home_page)
 register_page(__name__, path="/", title="Home Page")
 
 
-# def layout():
-#     return "Hello There"
+def layout():
+    return "Hello There"
 
 # https://api.myanimelist.net/v2/anime/season/2017/summer?limit=4&fields=media_type

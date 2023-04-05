@@ -38,7 +38,7 @@ class MainApplication:
             theme={"colorScheme": "dark", "fontFamily": "'segoe ui', 'Inter', sans-serif"},
             children=[
                 page_container, dcc.Store(id="timezone"),
-                dcc.Store(id="pipe", data="https://rahularanger-be-rahularanger.vercel.app")
+                dcc.Store(id="pipe", data="https://project-api-test.vercel.app/")
             ]
         )
         # self.app.layout = html.Div('Testing testing')
