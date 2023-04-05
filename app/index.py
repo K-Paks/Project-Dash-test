@@ -1,6 +1,6 @@
 from dash import Dash, page_container, dcc, clientside_callback, ClientsideFunction, Output, Input, html
-import dash_mantine_components as dmc
-from MyListAnalyzerDash.route_setup import build_assets
+# import dash_mantine_components as dmc
+# from MyListAnalyzerDash.route_setup import build_assets
 import pathlib
 
 
@@ -23,8 +23,8 @@ class MainApplication:
         self.set_layout()
 
     def build(self):
-        build_assets(self.app.server)
-        self.app.renderer = (pathlib.Path(__file__).parent / "allocator.js").read_text()
+        # build_assets(self.app.server)
+        # self.app.renderer = (pathlib.Path(__file__).parent / "allocator.js").read_text()
         # since it is multi-page application, these scenarios are bound to happen
         # so, we supress those exceptions for now
         self.app.config.suppress_callback_exceptions = True
@@ -46,9 +46,9 @@ class MainApplication:
 
 Application = MainApplication()
 app = Application.app.server
-
-if __name__ == "__main__":
-    from dotenv import load_dotenv
-
-    load_dotenv()
-    Application.app.run(port=6969, dev_tools_ui=True, debug=True, host="127.0.0.1")
+#
+# if __name__ == "__main__":
+#     from dotenv import load_dotenv
+#
+#     load_dotenv()
+#     Application.app.run(port=6969, dev_tools_ui=True, debug=True, host="127.0.0.1")
