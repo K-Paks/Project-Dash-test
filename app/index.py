@@ -10,7 +10,7 @@ class MainApplication:
             __name__,
             title="RahulARanger",
             update_title="Loading...",
-            use_pages=True,
+            use_pages=False,
         )
 
         clientside_callback(
@@ -41,7 +41,7 @@ class MainApplication:
         #         dcc.Store(id="pipe", data="https://project-api-test.vercel.app/")
         #     ]
         # )
-        self.app.layout = html.Div()
+        self.app.layout = html.Div('Final form')
 
 
 Application = MainApplication()
