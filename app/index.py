@@ -34,14 +34,14 @@ class MainApplication:
         return self.__app
 
     def set_layout(self):
-        # self.app.layout = dmc.MantineProvider(
-        #     theme={"colorScheme": "dark", "fontFamily": "'segoe ui', 'Inter', sans-serif"},
-        #     children=[
-        #         page_container, dcc.Store(id="timezone"),
-        #         dcc.Store(id="pipe", data="https://rahularanger-be-rahularanger.vercel.app")
-        #     ]
-        # )
-        self.app.layout = html.Div('Testing testing')
+        self.app.layout = dmc.MantineProvider(
+            theme={"colorScheme": "dark", "fontFamily": "'segoe ui', 'Inter', sans-serif"},
+            children=[
+                page_container, dcc.Store(id="timezone"),
+                dcc.Store(id="pipe", data="https://rahularanger-be-rahularanger.vercel.app")
+            ]
+        )
+        # self.app.layout = html.Div('Testing testing')
 
 
 Application = MainApplication()
